@@ -91,6 +91,7 @@
             // 
             // tblColors
             // 
+            this.tblColors.AutoScroll = true;
             this.tblColors.ColumnCount = 4;
             this.tblColors.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tblColors.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
@@ -99,7 +100,7 @@
             this.tblColors.Location = new System.Drawing.Point(15, 51);
             this.tblColors.Name = "tblColors";
             this.tblColors.RowCount = 1;
-            this.tblColors.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblColors.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tblColors.Size = new System.Drawing.Size(256, 190);
             this.tblColors.TabIndex = 6;
             // 

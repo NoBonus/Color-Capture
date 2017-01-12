@@ -14,9 +14,11 @@ namespace Color_Capture
 {
     public partial class frmCapture : Form
     {
+        private List<colorControls> colorControlsList;
         public frmCapture()
         {
             InitializeComponent();
+            colorControlsList = new List<colorControls>();
         }
 
         private void btnCapture_Click(object sender, EventArgs e)
@@ -37,8 +39,34 @@ namespace Color_Capture
                 Console.WriteLine("mouse click "+e.Point.x+":"+e.Point.y);
                 MouseHook.Stop();
                 MouseHook.MouseAction -= MouseHook_MouseAction;
-                
+                cloneAndAdd(clcolor);
             }
+        }
+        private void cloneAndAdd(Color selcol)
+        {
+            int row = tblColors.RowCount;
+            SuspendLayout();
+            PictureBox p = (PictureBox)CloneObject(picSelColor);
+            p.BackColor = selcol;
+            p.Name = "picSelColor" + row.ToString();
+            PictureBox c = (PictureBox)CloneObject(picBtnCopy);
+            c.Image = Properties.Resources.copy1_32;
+            PictureBox d = (PictureBox)CloneObject(picBtnDelete);
+            TextBox h = (TextBox)CloneObject(txtHtmlColor);
+            colorControls cc = new colorControls() { picColor=p, picCopy=c,picDelete=d, htmlColor=h };
+            colorControlsList.Add(cc);
+            
+            tblColors.RowCount = row + 1;
+            tblColors.Controls.Add(cc.picColor,0, row); 
+            tblColors.Controls.Add(cc.htmlColor,1,row);
+            tblColors.Controls.Add(cc.picCopy,2,row);
+            tblColors.Controls.Add(cc.picDelete,3,row);
+            
+            tblColors.Refresh();
+            
+            ResumeLayout();
+            cc.Refresh();
+            Refresh();
         }
         private object CloneObject(object o)
         {
@@ -93,20 +121,28 @@ namespace Color_Capture
                 ntfColorCapture.Visible = true;
                 //ntfColorCapture.ShowBalloonTip(500);
                 this.ShowInTaskbar = false;
-                this.Hide();
+                //this.Hide();
             }
 
             else if (FormWindowState.Normal == this.WindowState)
             {
                 ntfColorCapture.Visible = false;
                 this.ShowInTaskbar = true;
+              //  this.Show();
             }
         }
         internal class colorControls
         {
-            TextBox htmlColor { get; set; }
-            PictureBox picCopy { get; set; }
-            PictureBox picDelete { get; set; }
+            public PictureBox picColor { get; set; }
+            public TextBox htmlColor { get; set; }
+            public PictureBox picCopy { get; set; }
+            public PictureBox picDelete { get; set; }
+            public void Refresh()
+            {
+                picColor.Refresh();
+                picCopy.Refresh();
+                picDelete.Refresh();
+            }
         }
     }
 }
