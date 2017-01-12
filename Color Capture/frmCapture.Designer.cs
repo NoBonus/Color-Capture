@@ -28,50 +28,112 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnCapture = new System.Windows.Forms.Button();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCapture));
             this.txtHtmlColor = new System.Windows.Forms.TextBox();
-            this.pnlSelColor = new System.Windows.Forms.Panel();
+            this.ntfColorCapture = new System.Windows.Forms.NotifyIcon(this.components);
+            this.picBtnDelete = new System.Windows.Forms.PictureBox();
+            this.picBtnCopy = new System.Windows.Forms.PictureBox();
+            this.btnCapture = new System.Windows.Forms.Button();
+            this.tblColors = new System.Windows.Forms.TableLayoutPanel();
+            this.picSelColor = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.picBtnDelete)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBtnCopy)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picSelColor)).BeginInit();
             this.SuspendLayout();
+            // 
+            // txtHtmlColor
+            // 
+            this.txtHtmlColor.Location = new System.Drawing.Point(75, 15);
+            this.txtHtmlColor.Name = "txtHtmlColor";
+            this.txtHtmlColor.ReadOnly = true;
+            this.txtHtmlColor.Size = new System.Drawing.Size(148, 20);
+            this.txtHtmlColor.TabIndex = 1;
+            this.txtHtmlColor.TabStop = false;
+            // 
+            // ntfColorCapture
+            // 
+            this.ntfColorCapture.Icon = ((System.Drawing.Icon)(resources.GetObject("ntfColorCapture.Icon")));
+            this.ntfColorCapture.Text = "Color Capture";
+            this.ntfColorCapture.Visible = true;
+            this.ntfColorCapture.Click += new System.EventHandler(this.ntfColorCapture_Click);
+            this.ntfColorCapture.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ntfColorCapture_MouseDoubleClick);
+            // 
+            // picBtnDelete
+            // 
+            this.picBtnDelete.Location = new System.Drawing.Point(251, 15);
+            this.picBtnDelete.Name = "picBtnDelete";
+            this.picBtnDelete.Size = new System.Drawing.Size(21, 20);
+            this.picBtnDelete.TabIndex = 5;
+            this.picBtnDelete.TabStop = false;
+            // 
+            // picBtnCopy
+            // 
+            this.picBtnCopy.Image = global::Color_Capture.Properties.Resources.copy1_32;
+            this.picBtnCopy.Location = new System.Drawing.Point(228, 15);
+            this.picBtnCopy.Name = "picBtnCopy";
+            this.picBtnCopy.Size = new System.Drawing.Size(21, 20);
+            this.picBtnCopy.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picBtnCopy.TabIndex = 4;
+            this.picBtnCopy.TabStop = false;
             // 
             // btnCapture
             // 
+            this.btnCapture.BackgroundImage = global::Color_Capture.Properties.Resources.drop6;
+            this.btnCapture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnCapture.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCapture.Location = new System.Drawing.Point(12, 12);
+            this.btnCapture.Location = new System.Drawing.Point(12, 15);
             this.btnCapture.Name = "btnCapture";
-            this.btnCapture.Size = new System.Drawing.Size(24, 23);
+            this.btnCapture.Size = new System.Drawing.Size(24, 20);
             this.btnCapture.TabIndex = 0;
             this.btnCapture.UseVisualStyleBackColor = true;
             this.btnCapture.Click += new System.EventHandler(this.btnCapture_Click);
             // 
-            // txtHtmlColor
+            // tblColors
             // 
-            this.txtHtmlColor.Location = new System.Drawing.Point(75, 12);
-            this.txtHtmlColor.Name = "txtHtmlColor";
-            this.txtHtmlColor.ReadOnly = true;
-            this.txtHtmlColor.Size = new System.Drawing.Size(197, 20);
-            this.txtHtmlColor.TabIndex = 1;
-            this.txtHtmlColor.TabStop = false;
+            this.tblColors.ColumnCount = 4;
+            this.tblColors.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tblColors.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.tblColors.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tblColors.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tblColors.Location = new System.Drawing.Point(15, 51);
+            this.tblColors.Name = "tblColors";
+            this.tblColors.RowCount = 1;
+            this.tblColors.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblColors.Size = new System.Drawing.Size(256, 190);
+            this.tblColors.TabIndex = 6;
             // 
-            // pnlSelColor
+            // picSelColor
             // 
-            this.pnlSelColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlSelColor.Location = new System.Drawing.Point(42, 12);
-            this.pnlSelColor.Name = "pnlSelColor";
-            this.pnlSelColor.Size = new System.Drawing.Size(27, 23);
-            this.pnlSelColor.TabIndex = 2;
+            this.picSelColor.BackColor = System.Drawing.Color.White;
+            this.picSelColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picSelColor.Location = new System.Drawing.Point(48, 15);
+            this.picSelColor.Name = "picSelColor";
+            this.picSelColor.Size = new System.Drawing.Size(21, 20);
+            this.picSelColor.TabIndex = 7;
+            this.picSelColor.TabStop = false;
             // 
             // frmCapture
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Controls.Add(this.pnlSelColor);
+            this.ClientSize = new System.Drawing.Size(292, 262);
+            this.Controls.Add(this.picSelColor);
+            this.Controls.Add(this.tblColors);
+            this.Controls.Add(this.picBtnDelete);
+            this.Controls.Add(this.picBtnCopy);
             this.Controls.Add(this.txtHtmlColor);
             this.Controls.Add(this.btnCapture);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "frmCapture";
-            this.Text = "Form1";
+            this.Text = "Color Capture";
             this.TopMost = true;
+            this.Resize += new System.EventHandler(this.frmCapture_Resize);
+            ((System.ComponentModel.ISupportInitialize)(this.picBtnDelete)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBtnCopy)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picSelColor)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -81,7 +143,11 @@
 
         private System.Windows.Forms.Button btnCapture;
         private System.Windows.Forms.TextBox txtHtmlColor;
-        private System.Windows.Forms.Panel pnlSelColor;
+        private System.Windows.Forms.NotifyIcon ntfColorCapture;
+        private System.Windows.Forms.PictureBox picBtnCopy;
+        private System.Windows.Forms.PictureBox picBtnDelete;
+        private System.Windows.Forms.TableLayoutPanel tblColors;
+        private System.Windows.Forms.PictureBox picSelColor;
     }
 }
 

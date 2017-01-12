@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,18 +28,35 @@ namespace Color_Capture
         private void MouseHook_MouseAction(object sender, MouseHook.RawMouseEventArgs e)
         {
             Console.WriteLine("mouse act" + e.Message);
+            Color clcolor = GetColorAt(e.Point.x, e.Point.y);
+            picSelColor.BackColor = clcolor;
+            string htmlcol = ColorTranslator.ToHtml(Color.FromArgb(clcolor.ToArgb()));
+            txtHtmlColor.Text = htmlcol;
             if (e.Message == MouseHook.MouseMessages.WM_LBUTTONDOWN)
             {
                 Console.WriteLine("mouse click "+e.Point.x+":"+e.Point.y);
                 MouseHook.Stop();
                 MouseHook.MouseAction -= MouseHook_MouseAction;
-                Color clcolor = GetColorAt(e.Point.x, e.Point.y);
-                pnlSelColor.BackColor = clcolor;
-                string htmlcol = ColorTranslator.ToHtml(Color.FromArgb(clcolor.ToArgb()));
-                txtHtmlColor.Text = htmlcol;
+                
             }
         }
+        private object CloneObject(object o)
+        {
+            Type t = o.GetType();
+            PropertyInfo[] properties = t.GetProperties();
 
+            Object p = t.InvokeMember("", System.Reflection.BindingFlags.CreateInstance, null, o, null);
+
+            foreach (PropertyInfo pi in properties)
+            {
+                if (pi.CanWrite)
+                {
+                    pi.SetValue(p, pi.GetValue(o, null), null);
+                }
+            }
+
+            return p;
+        }
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetDesktopWindow();
         [DllImport("user32.dll", SetLastError = true)]
@@ -55,6 +73,40 @@ namespace Color_Capture
             int a = (int)GetPixel(dc, x, y);
             ReleaseDC(desk, dc);
             return Color.FromArgb(255, (a >> 0) & 0xff, (a >> 8) & 0xff, (a >> 16) & 0xff);
+        }
+
+        private void ntfColorCapture_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+           
+        }
+
+        private void ntfColorCapture_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+            this.Show();
+        }
+
+        private void frmCapture_Resize(object sender, EventArgs e)
+        {
+            if (FormWindowState.Minimized == this.WindowState)
+            {
+                ntfColorCapture.Visible = true;
+                //ntfColorCapture.ShowBalloonTip(500);
+                this.ShowInTaskbar = false;
+                this.Hide();
+            }
+
+            else if (FormWindowState.Normal == this.WindowState)
+            {
+                ntfColorCapture.Visible = false;
+                this.ShowInTaskbar = true;
+            }
+        }
+        internal class colorControls
+        {
+            TextBox htmlColor { get; set; }
+            PictureBox picCopy { get; set; }
+            PictureBox picDelete { get; set; }
         }
     }
 }
