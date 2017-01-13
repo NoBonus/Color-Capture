@@ -21,8 +21,6 @@ namespace Color_Capture
         public static void Start()
         {
             _hookID = SetHook(_proc);
-
-
         }
         public static void Stop()
         {
@@ -48,12 +46,9 @@ namespace Color_Capture
           int nCode, IntPtr wParam, IntPtr lParam)
         {
             if (nCode < 0) return CallNextHookEx(_hookID, nCode, wParam, lParam);
-            //if (nCode >= 0 && MouseMessages.WM_LBUTTONDOWN == (MouseMessages)wParam)
-            //{
-                MSLLHOOKSTRUCT hookStruct = (MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT));
-                // MouseAction(null, new EventArgs());
-                MouseAction(null, new RawMouseEventArgs() { Message = (MouseMessages)wParam, Point = hookStruct.pt });
-            //}
+            MSLLHOOKSTRUCT hookStruct = (MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT));
+            MouseAction(null, new RawMouseEventArgs() { Message = (MouseMessages)wParam, Point = hookStruct.pt });
+            
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
 

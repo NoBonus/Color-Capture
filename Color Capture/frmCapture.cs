@@ -14,11 +14,11 @@ namespace Color_Capture
 {
     public partial class frmCapture : Form
     {
-        private List<colorControls> colorControlsList;
+        private List<ColorControls> colorControlsList;
         public frmCapture()
         {
             InitializeComponent();
-            colorControlsList = new List<colorControls>();
+            colorControlsList = new List<ColorControls>();
         }
 
         private void btnCapture_Click(object sender, EventArgs e)
@@ -36,55 +36,49 @@ namespace Color_Capture
             txtHtmlColor.Text = htmlcol;
             if (e.Message == MouseHook.MouseMessages.WM_LBUTTONDOWN)
             {
-                Console.WriteLine("mouse click "+e.Point.x+":"+e.Point.y);
+                Console.WriteLine("mouse click " + e.Point.x + ":" + e.Point.y);
                 MouseHook.Stop();
                 MouseHook.MouseAction -= MouseHook_MouseAction;
-                cloneAndAdd(clcolor);
+                addColor(clcolor);
             }
         }
-        private void cloneAndAdd(Color selcol)
+        private void addColor(Color selcol)
         {
-            int row = tblColors.RowCount;
+            var ncc = new ColorControls(selcol, colorControlsList.Count);
+            ncc.DeleteClick += Ncc_DeleteClick;
+            colorControlsList.Add(ncc);
+            drawTable();
+        }
+        private void drawTable()
+        {
+            int row = 0;
             SuspendLayout();
-            PictureBox p = (PictureBox)CloneObject(picSelColor);
-            p.BackColor = selcol;
-            p.Name = "picSelColor" + row.ToString();
-            PictureBox c = (PictureBox)CloneObject(picBtnCopy);
-            c.Image = Properties.Resources.copy1_32;
-            PictureBox d = (PictureBox)CloneObject(picBtnDelete);
-            TextBox h = (TextBox)CloneObject(txtHtmlColor);
-            colorControls cc = new colorControls() { picColor=p, picCopy=c,picDelete=d, htmlColor=h };
-            colorControlsList.Add(cc);
-            
-            tblColors.RowCount = row + 1;
-            tblColors.Controls.Add(cc.picColor,0, row); 
-            tblColors.Controls.Add(cc.htmlColor,1,row);
-            tblColors.Controls.Add(cc.picCopy,2,row);
-            tblColors.Controls.Add(cc.picDelete,3,row);
-            
+            tblColors.Controls.Clear();
+            tblColors.RowCount = colorControlsList.Count;
+            for (int i = colorControlsList.Count - 1; i >= 0; i--)
+            {
+                var cc = colorControlsList[i];
+                tblColors.Controls.Add(cc.picColor, 0, row);
+                tblColors.Controls.Add(cc.htmlColor, 1, row);
+                tblColors.Controls.Add(cc.picCopy, 2, row);
+                tblColors.Controls.Add(cc.picDelete, 3, row);
+                cc.Refresh();
+                row++;
+            }
+
             tblColors.Refresh();
-            
+
             ResumeLayout();
-            cc.Refresh();
+
             Refresh();
         }
-        private object CloneObject(object o)
+        private void Ncc_DeleteClick(object sender, EventArgs e)
         {
-            Type t = o.GetType();
-            PropertyInfo[] properties = t.GetProperties();
-
-            Object p = t.InvokeMember("", System.Reflection.BindingFlags.CreateInstance, null, o, null);
-
-            foreach (PropertyInfo pi in properties)
-            {
-                if (pi.CanWrite)
-                {
-                    pi.SetValue(p, pi.GetValue(o, null), null);
-                }
-            }
-
-            return p;
+            var cc = (ColorControls)sender;
+            colorControlsList.Remove(cc);
+            drawTable();
         }
+
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetDesktopWindow();
         [DllImport("user32.dll", SetLastError = true)]
@@ -105,7 +99,7 @@ namespace Color_Capture
 
         private void ntfColorCapture_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-           
+
         }
 
         private void ntfColorCapture_Click(object sender, EventArgs e)
@@ -119,30 +113,82 @@ namespace Color_Capture
             if (FormWindowState.Minimized == this.WindowState)
             {
                 ntfColorCapture.Visible = true;
-                //ntfColorCapture.ShowBalloonTip(500);
                 this.ShowInTaskbar = false;
-                //this.Hide();
             }
 
             else if (FormWindowState.Normal == this.WindowState)
             {
                 ntfColorCapture.Visible = false;
                 this.ShowInTaskbar = true;
-              //  this.Show();
             }
         }
-        internal class colorControls
+        private void picBtnCopy_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(txtHtmlColor.Text);
+        }
+        internal class ColorControls
         {
             public PictureBox picColor { get; set; }
             public TextBox htmlColor { get; set; }
             public PictureBox picCopy { get; set; }
             public PictureBox picDelete { get; set; }
+            public int Idx { get; set; }
+            public ColorControls() { }
+            public event EventHandler DeleteClick = delegate { };
+            public ColorControls(Color htmlcolor, int idx)
+            {
+                Idx = idx;
+                picColor = new PictureBox() { Name = "picSelColor" + idx.ToString(), Size = new Size(20, 20), BackColor = htmlcolor,BorderStyle=BorderStyle.FixedSingle };
+                picCopy = new PictureBox() { Name = "picBtnCopy" + idx.ToString(), Size = new Size(20, 20), SizeMode = PictureBoxSizeMode.Zoom, Image = Properties.Resources.copy1_32 };
+                picDelete = new PictureBox() { Name = "picBtnDelete" + idx.ToString(), Size = new Size(20, 20), SizeMode = PictureBoxSizeMode.Zoom, Image = Properties.Resources.delete121_32 };
+                htmlColor = new TextBox() { Name = "txtHtmlColor" + idx.ToString(), Size = new Size(148, 20), Text = ColorTranslator.ToHtml(Color.FromArgb(htmlcolor.ToArgb())), ReadOnly = true };
+                picCopy.Click += PicCopy_Click;
+                picDelete.Click += PicDelete_Click;
+            }
+
+            private void PicDelete_Click(object sender, EventArgs e)
+            {
+                DeleteClick(this, new EventArgs());
+            }
+
+            private void PicCopy_Click(object sender, EventArgs e)
+            {
+                Clipboard.SetText(htmlColor.Text);
+            }
+
             public void Refresh()
             {
+
                 picColor.Refresh();
+                picColor.Update();
+                picCopy.Update();
                 picCopy.Refresh();
                 picDelete.Refresh();
+                picCopy.Update();
             }
+        }
+        private bool frmExtended = false;
+        private void picBtnShowHide_Click(object sender, EventArgs e)
+        {
+            int maxHeight = 300;
+            int minHeight = 85;
+            if (!frmExtended)
+            {
+                picBtnShowHide.Image = Properties.Resources.up1;
+                this.Height = maxHeight;
+                frmExtended = true;
+            }else
+            {
+                picBtnShowHide.Image = Properties.Resources.down1;
+                this.Height = minHeight;
+                frmExtended = false;
+            }
+        }
+
+        private void picBtnShowHide_MouseHover(object sender, EventArgs e)
+        {
+            if (!frmExtended) picBtnShowHide.Image = Properties.Resources.down2;
+            else picBtnShowHide.Image = Properties.Resources.up2;
         }
     }
 }

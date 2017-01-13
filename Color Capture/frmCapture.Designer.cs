@@ -32,18 +32,19 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCapture));
             this.txtHtmlColor = new System.Windows.Forms.TextBox();
             this.ntfColorCapture = new System.Windows.Forms.NotifyIcon(this.components);
-            this.picBtnDelete = new System.Windows.Forms.PictureBox();
-            this.picBtnCopy = new System.Windows.Forms.PictureBox();
-            this.btnCapture = new System.Windows.Forms.Button();
             this.tblColors = new System.Windows.Forms.TableLayoutPanel();
             this.picSelColor = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.picBtnDelete)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBtnCopy)).BeginInit();
+            this.picBtnShowHide = new System.Windows.Forms.PictureBox();
+            this.picBtnCopy = new System.Windows.Forms.PictureBox();
+            this.btnCapture = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picSelColor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBtnShowHide)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBtnCopy)).BeginInit();
             this.SuspendLayout();
             // 
             // txtHtmlColor
             // 
+            this.txtHtmlColor.HideSelection = false;
             this.txtHtmlColor.Location = new System.Drawing.Point(75, 15);
             this.txtHtmlColor.Name = "txtHtmlColor";
             this.txtHtmlColor.ReadOnly = true;
@@ -59,13 +60,42 @@
             this.ntfColorCapture.Click += new System.EventHandler(this.ntfColorCapture_Click);
             this.ntfColorCapture.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ntfColorCapture_MouseDoubleClick);
             // 
-            // picBtnDelete
+            // tblColors
             // 
-            this.picBtnDelete.Location = new System.Drawing.Point(251, 15);
-            this.picBtnDelete.Name = "picBtnDelete";
-            this.picBtnDelete.Size = new System.Drawing.Size(21, 20);
-            this.picBtnDelete.TabIndex = 5;
-            this.picBtnDelete.TabStop = false;
+            this.tblColors.AutoScroll = true;
+            this.tblColors.ColumnCount = 4;
+            this.tblColors.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tblColors.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.tblColors.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tblColors.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tblColors.Location = new System.Drawing.Point(15, 51);
+            this.tblColors.Name = "tblColors";
+            this.tblColors.RowCount = 1;
+            this.tblColors.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tblColors.Size = new System.Drawing.Size(267, 190);
+            this.tblColors.TabIndex = 6;
+            // 
+            // picSelColor
+            // 
+            this.picSelColor.BackColor = System.Drawing.Color.White;
+            this.picSelColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picSelColor.Location = new System.Drawing.Point(48, 15);
+            this.picSelColor.Name = "picSelColor";
+            this.picSelColor.Size = new System.Drawing.Size(21, 20);
+            this.picSelColor.TabIndex = 7;
+            this.picSelColor.TabStop = false;
+            // 
+            // picBtnShowHide
+            // 
+            this.picBtnShowHide.Image = global::Color_Capture.Properties.Resources.down1;
+            this.picBtnShowHide.Location = new System.Drawing.Point(251, 15);
+            this.picBtnShowHide.Name = "picBtnShowHide";
+            this.picBtnShowHide.Size = new System.Drawing.Size(21, 20);
+            this.picBtnShowHide.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picBtnShowHide.TabIndex = 5;
+            this.picBtnShowHide.TabStop = false;
+            this.picBtnShowHide.Click += new System.EventHandler(this.picBtnShowHide_Click);
+            this.picBtnShowHide.MouseHover += new System.EventHandler(this.picBtnShowHide_MouseHover);
             // 
             // picBtnCopy
             // 
@@ -76,6 +106,7 @@
             this.picBtnCopy.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBtnCopy.TabIndex = 4;
             this.picBtnCopy.TabStop = false;
+            this.picBtnCopy.Click += new System.EventHandler(this.picBtnCopy_Click);
             // 
             // btnCapture
             // 
@@ -89,39 +120,14 @@
             this.btnCapture.UseVisualStyleBackColor = true;
             this.btnCapture.Click += new System.EventHandler(this.btnCapture_Click);
             // 
-            // tblColors
-            // 
-            this.tblColors.AutoScroll = true;
-            this.tblColors.ColumnCount = 4;
-            this.tblColors.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tblColors.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
-            this.tblColors.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tblColors.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tblColors.Location = new System.Drawing.Point(15, 51);
-            this.tblColors.Name = "tblColors";
-            this.tblColors.RowCount = 1;
-            this.tblColors.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tblColors.Size = new System.Drawing.Size(256, 190);
-            this.tblColors.TabIndex = 6;
-            // 
-            // picSelColor
-            // 
-            this.picSelColor.BackColor = System.Drawing.Color.White;
-            this.picSelColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picSelColor.Location = new System.Drawing.Point(48, 15);
-            this.picSelColor.Name = "picSelColor";
-            this.picSelColor.Size = new System.Drawing.Size(21, 20);
-            this.picSelColor.TabIndex = 7;
-            this.picSelColor.TabStop = false;
-            // 
             // frmCapture
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 262);
+            this.ClientSize = new System.Drawing.Size(304, 46);
             this.Controls.Add(this.picSelColor);
             this.Controls.Add(this.tblColors);
-            this.Controls.Add(this.picBtnDelete);
+            this.Controls.Add(this.picBtnShowHide);
             this.Controls.Add(this.picBtnCopy);
             this.Controls.Add(this.txtHtmlColor);
             this.Controls.Add(this.btnCapture);
@@ -132,9 +138,9 @@
             this.Text = "Color Capture";
             this.TopMost = true;
             this.Resize += new System.EventHandler(this.frmCapture_Resize);
-            ((System.ComponentModel.ISupportInitialize)(this.picBtnDelete)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBtnCopy)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSelColor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBtnShowHide)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBtnCopy)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -146,7 +152,7 @@
         private System.Windows.Forms.TextBox txtHtmlColor;
         private System.Windows.Forms.NotifyIcon ntfColorCapture;
         private System.Windows.Forms.PictureBox picBtnCopy;
-        private System.Windows.Forms.PictureBox picBtnDelete;
+        private System.Windows.Forms.PictureBox picBtnShowHide;
         private System.Windows.Forms.TableLayoutPanel tblColors;
         private System.Windows.Forms.PictureBox picSelColor;
     }
